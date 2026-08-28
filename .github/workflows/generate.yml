@@ -1,1 +1,76 @@
+name: Generate Mente Clara ES content
 
+on:
+  schedule:
+    - cron: "0 12 * * 2,5"     # Videos largos: martes y viernes, 12:00 UTC (deja margen para producir antes del horario de publicación tarde/noche)
+    - cron: "0 12 * * 1,2,3,4,5"  # Shorts: lunes a viernes, 12:00 UTC
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: "Tipo de contenido a generar manualmente"
+        required: true
+        type: choice
+        options:
+          - long
+          - short
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # necesario para commitear data/series_state.json
+      issues: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Retraso aleatorio anti-colisión
+        run: sleep $((RANDOM % 60))   # 0-59s: evita que los dos triggers de martes/viernes empiecen en el mismo instante exacto
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Determine content kind
+        id: kind
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ inputs.kind }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 12 * * 2,5" ]; then
+            echo "value=long" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=short" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run generator
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python generate.py ${{ steps.kind.outputs.value }}
+
+      - name: Commit updated series state (con reintento)
+        run: |
+          git config user.name "mente-clara-es-bot"
+          git config user.email "actions@github.com"
+          git add data/series_state.json
+          git diff --staged --quiet && exit 0   # nada que commitear
+
+          git commit -m "chore: actualizar estado de serie [skip ci]"
+
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "Push correcto en el intento $attempt"
+              exit 0
+            fi
+            echo "Push falló (intento $attempt), reintentando tras rebase..."
+            sleep $((RANDOM % 20 + 5))   # 5-24s antes de reintentar
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+          done
+
+          echo "No se pudo hacer push tras 5 intentos" >&2
+          exit 1
