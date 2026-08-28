@@ -1,1 +1,135 @@
+{
+  "channel": "Mente Clara ES",
+  "language": "es",
+  "disclaimer": "Este contenido es educativo y no sustituye la terapia profesional.",
 
+  "publish_schedule": {
+    "long_form": {
+      "per_week": 2,
+      "days": ["tuesday", "friday"],
+      "suggested_time_local": "19:00-21:00 (tarde/noche España) / 18:00-20:00 (tarde/noche México, Colombia)"
+    },
+    "shorts": {
+      "per_week": 4,
+      "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+      "suggested_time_local": "19:00-22:00 (tarde/noche)"
+    }
+  },
+
+  "series": [
+    {
+      "series_name": "Serie Ansiedad",
+      "duration_weeks": 3,
+      "long_form_topics": [
+        {
+          "id": "s1-t01",
+          "title": "Cómo calmar la ansiedad rápido (técnica de 60 segundos)",
+          "pillar": "herramientas",
+          "format": "explicativo_corto",
+          "target_duration_min": 8
+        },
+        {
+          "id": "s1-t02",
+          "title": "¿Por qué siento opresión en el pecho? (ansiedad vs. otras causas)",
+          "pillar": "explicativo",
+          "format": "explicativo_corto",
+          "target_duration_min": 7
+        },
+        {
+          "id": "s1-t03",
+          "title": "Cómo detener una crisis de ansiedad en el momento",
+          "pillar": "herramientas",
+          "format": "explicativo_corto",
+          "target_duration_min": 8
+        },
+        {
+          "id": "s1-t04",
+          "title": "Ansiedad vs. estrés vs. burnout: diferencias que nadie te explica",
+          "pillar": "explicativo",
+          "format": "explicativo_corto",
+          "target_duration_min": 10
+        },
+        {
+          "id": "s1-t05",
+          "title": "Meditación guiada de 10 minutos para calmar la ansiedad",
+          "pillar": "meditacion",
+          "format": "meditacion_guiada",
+          "target_duration_min": 10
+        },
+        {
+          "id": "s1-t06",
+          "title": "Por qué no puedes \"simplemente calmarte\" (y qué sí funciona)",
+          "pillar": "explicativo",
+          "format": "explicativo_corto",
+          "target_duration_min": 9
+        }
+      ],
+      "shorts_pool": [
+        "Grounding: técnica de los 5 sentidos en 30 segundos",
+        "¿Es peligroso el corazón acelerado por ansiedad?",
+        "La técnica 4-7-8 explicada en 30 segundos",
+        "Cómo saber si es un ataque de pánico o algo físico",
+        "1 señal de que tu cuerpo está en modo estrés crónico",
+        "Qué hacer en los primeros 2 minutos de una crisis de ansiedad"
+      ]
+    },
+    {
+      "series_name": "Serie Hábitos Mentales",
+      "duration_weeks": 3,
+      "long_form_topics": [
+        {
+          "id": "s2-t01",
+          "title": "Rutina matutina anti-ansiedad en 10 minutos",
+          "pillar": "herramientas",
+          "format": "explicativo_corto",
+          "target_duration_min": 9
+        },
+        {
+          "id": "s2-t02",
+          "title": "Journaling guiado: 5 preguntas para vaciar la mente antes de dormir",
+          "pillar": "herramientas",
+          "format": "explicativo_corto",
+          "target_duration_min": 8
+        },
+        {
+          "id": "s2-t03",
+          "title": "Qué es el burnout y cómo saber si ya lo tienes",
+          "pillar": "explicativo",
+          "format": "explicativo_corto",
+          "target_duration_min": 9
+        },
+        {
+          "id": "s2-t04",
+          "title": "Cómo salir del bucle de pensamientos repetitivos (rumiación)",
+          "pillar": "explicativo",
+          "format": "explicativo_corto",
+          "target_duration_min": 9
+        },
+        {
+          "id": "s2-t05",
+          "title": "Meditación para dormir profundo (30 minutos, voz calmada)",
+          "pillar": "meditacion",
+          "format": "meditacion_guiada",
+          "target_duration_min": 30
+        },
+        {
+          "id": "s2-t06",
+          "title": "Rutina nocturna para dormir sin pensamientos intrusivos",
+          "pillar": "herramientas",
+          "format": "explicativo_corto",
+          "target_duration_min": 8
+        }
+      ],
+      "shorts_pool": [
+        "1 hábito mental que sostiene la ansiedad sin que lo notes",
+        "La técnica del check-in emocional de 2 minutos",
+        "Cómo dejar de revisar el móvil compulsivamente",
+        "3 preguntas para saber si una decisión viene del miedo",
+        "1 señal de que estás normalizando el estrés crónico",
+        "Cómo poner límites sin sentir culpa (en 30 segundos)"
+      ]
+    }
+  ],
+
+  "notes": "Cada serie dura 3 semanas: 6 videos largos (2/semana) + hasta 18 slots de Shorts (se generan 4/semana desde shorts_pool, en orden, con repetición si el pool se agota antes de que termine la serie). El estado de progreso (serie activa, índice de video largo, índice de short) se guarda en data/series_state.json y se actualiza automáticamente en cada ejecución del workflow."
+}
